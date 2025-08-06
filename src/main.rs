@@ -1,32 +1,32 @@
 extern crate ncurses;
 
 //* we can also use*/
-// use ncurses::*
-
-//better use this with autocomplete IDE
-use ncurses::{addstr, endwin, getch, initscr, refresh};
+use ncurses::*;
 
 fn main() {
-    //* start ncurses
+    //* start(initialize) ncurses
     initscr();
-    
-    //add string
-    addstr("Hello, World!").unwrap();
-    
-    //refresh screen 
-    refresh();
 
     let mut quit = false;
+    let todos = vec!["Write a Todo App", "Buy a bread", "Get a Job", "Fix bugs"];
 
+    //* EVENT LOOP */
     while !quit {
-        let key = getch();
+        for (row, todo) in todos.iter().enumerate() {
+            mv(row as i32, 0);
+            addstr(*todo);
+        }
 
+        //refresh here (as per me)
+        refresh();
+
+        let key = getch();
         match key as u8 as char {
             'q' => quit = true,
             _ => {}
         }
     }
-    
+
     //wait for a keypress
     //getch(); <--- Not required, exit when types 'q' instantly
 
