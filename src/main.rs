@@ -12,17 +12,18 @@ fn main() {
     noecho();
     curs_set(CURSOR_VISIBILITY::CURSOR_INVISIBLE);
 
-    //? Colors
+    // Colors
     start_color();
     init_pair(REGULAR_PAIR, COLOR_WHITE, COLOR_BLACK);
     init_pair(HIGHLIGHT_PAIR, COLOR_BLACK, COLOR_WHITE);
     
-    // program
+    //? driver program
     let mut quit = false;
-    let todos = vec!["Write a Todo App", "Buy a bread", "Get a Job"];
+    let todos = vec!["Learn Linux", "Buy a bread", "Get a Job"];
 
     let mut todo_curr: usize = 0;
 
+    //* Todo While Loop */
     while !quit {
         for (index, todo) in todos.iter().enumerate() {
             let pair = {
@@ -33,6 +34,8 @@ fn main() {
                 }
             };
 
+
+            //highlighting the todo with alt-colors
             attron(COLOR_PAIR(pair));
             mv(index as i32, 1);
             addstr(*todo);
@@ -42,6 +45,7 @@ fn main() {
         //refresh here (as per me)
         refresh();
 
+        //navigation + exit controls
         let key = getch();
         match key as u8 as char {
             'q' => quit = true,
